@@ -1,6 +1,6 @@
 numpy
-tensorflow==2.0.0-rc1
-# tensorflow-gpu==2.0.0-rc1 # uncomment this line for TF-GPU installation
+# tensorflow==2.0.0-rc1
+tensorflow-gpu==2.0.0b1 # uncomment this line for TF-GPU installation
 tfp-nightly
 gym
 matplotlib

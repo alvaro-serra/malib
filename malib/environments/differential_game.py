@@ -3,6 +3,7 @@ from malib.spaces import Discrete, Box, MASpace, MAEnvSpec
 from malib.environments.base_game import BaseGame
 from malib.error import EnvironmentNotFound, WrongNumberOfAgent, WrongActionInputLength
 
+
 class DifferentialGame(BaseGame):
     def __init__(self, game_name, agent_num, action_range=(-10, 10)):
         self.game_name = game_name
