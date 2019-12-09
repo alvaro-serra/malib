@@ -3,6 +3,7 @@
 from malib.agents.agent_factory import *
 from malib.samplers.sampler import MASampler
 from malib.environments import DifferentialGame
+#from malib.environments import
 from malib.logger.utils import set_logger
 from malib.utils.random import set_seed
 from malib.trainers import MATrainer
@@ -15,7 +16,7 @@ suffix = f'{game_name}/{agent_setting}'
 
 set_logger(suffix)
 
-agent_num = 2
+agent_num = 3
 batch_size = 128
 training_steps = 10000
 exploration_step = 1000
