@@ -73,8 +73,9 @@ class MATrainer:
                         batches = add_annealing(batches, step - self.exploration_steps, annealing_scale=1.)
                         # print('annealing', batches[0]['annealing'])
                     elif extra_experience == 'target_actions':
-                        print("Dies here: ValueError: Error when checking input: expected input_1 to have 2 dimensions, but got array with shape (1, 128, 1) --> fixed ")
+                        #print("Dies here: ValueError: Error when checking input: expected input_1 to have 2 dimensions, but got array with shape (1, 128, 1) --> fixed ")
                         # dies here --> fixed
+                        # print('Dies here:')  # Particle adaptation edit
                         batches = add_target_actions(batches, self.agents, self.batch_size)
                     elif extra_experience == 'recent_experiences':
                         batches = add_recent_batches(batches, self.agents, self.batch_size)
@@ -84,8 +85,9 @@ class MATrainer:
                     agent_losses = agent.train(batch)
                     agents_losses.append(agent_losses)
                 self.losses.append(agents_losses)
-                print('agent 1', self.losses[-1][0])
-                print('agent 2', self.losses[-1][1])
+                #print('agent 1', self.losses[-1][0])
+                #print('agent 2', self.losses[-1][1])
+                #print('agent losses', self.losses[-1])
 
     def save(self):
         if self.save_path is None:

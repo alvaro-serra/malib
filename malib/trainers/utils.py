@@ -7,18 +7,23 @@ import tensorflow as tf
 def add_target_actions(batch_n, agents, batch_size):
     target_actions_n = []
     # Problem: for the moment the code does not support to compute batches of observations in parallel --> fixed
-    # for i, agent in enumerate(agents):
-    #     print(batch_n[i]['next_observations'].shape)
-    #     target_actions_n.append(agent.act(batch_n[i]['next_observations'], use_target=True))
-
     for i, agent in enumerate(agents):
         print(batch_n[i]['next_observations'].shape)
+        target_actions_n.append(agent.act(batch_n[i]['next_observations'], use_target=True))
+    """
+    for i, agent in enumerate(agents):
+        #print('batch shape: ', print(batch_n[i]['next_observations'].shape))
         if len(batch_n[i]['next_observations'].shape)>1:
+            action_aux_array = []
             for batch_id in range(batch_n[i]['next_observations'].shape[0]):
-                batch_n[i]['next_observations'][batch_id] = agent.act(batch_n[i]['next_observations'][batch_id], use_target=True)
-            target_actions_n.append(batch_n[i]['next_observations'])
+                #print(agent.act(batch_n[i]['next_observations'][batch_id], use_target=True))
+                #batch_n[i]['next_observations'][batch_id] = agent.act(batch_n[i]['next_observations'][batch_id], use_target=True)  # this was a temporary solution to being able to append actions
+                action_aux_array.append(np.float32(agent.act(batch_n[i]['next_observations'][batch_id], use_target=True)))
+            #target_actions_n.append(batch_n[i]['next_observations'])
+            target_actions_n.append(np.asarray(action_aux_array))
         else:
             target_actions_n.append(agent.act(batch_n[i]['next_observations'], use_target=True))
+    """
     # what's target actions for? --> it is the opponents actions (apparently)
     for i in range(len(agents)):
         target_actions = target_actions_n[i]

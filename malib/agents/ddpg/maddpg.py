@@ -59,7 +59,12 @@ class MADDPGAgent(OffPolicyAgent):
         #     return self._exploration_strategy.get_actions(self._train_step, observation, self._policy)
         # policy = self._policy
         # return policy.get_actions_np(observation)
-        observation = np.array([observation])
+        if len(observation.shape) < 2:
+            observation = np.array([observation])
+        if use_target and self._target_policy is not None:
+            policy = self._target_policy
+            actions = policy.get_actions_np(observation)
+            return policy.get_actions_np(observation)
         if self._exploration_strategy is not None and self._exploration_status:
             if step is None:  # first training step
                 step = self._train_step
@@ -68,8 +73,6 @@ class MADDPGAgent(OffPolicyAgent):
             #  gets action with exploration noise
             return self._exploration_strategy.get_action(self._train_step, observation, self._policy)
         policy = self._policy
-        if use_target and self._target_policy is not None:
-            policy = self._target_policy
         return policy.get_actions_np(observation)[0]
 
     def init_opt(self):
@@ -92,6 +95,7 @@ class MADDPGAgent(OffPolicyAgent):
         with tf.GradientTape(watch_accessed_variables=False) as tape:
             assert critic_variables, 'No qf variables to optimize.'
             tape.watch(critic_variables)
+            #print('Dies here')
             critic_loss = self.critic_loss(batch['observations'], batch['actions'], batch['opponent_actions'],
                                            batch['target_actions'], batch['rewards'], batch['next_observations'],
                                            weights=weights)
